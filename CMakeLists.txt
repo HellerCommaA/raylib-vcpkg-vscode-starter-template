@@ -59,7 +59,19 @@ target_link_libraries(
 
 target_link_options(${PROJECT_NAME} PRIVATE -fsanitize=address,undefined)
 
-add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD
+# Define the source directory for your data
+set(DATA_SOURCE_DIR "${CMAKE_SOURCE_DIR}/data")
+
+# Define the destination directory where the data should be copied
+set(DATA_DEST_DIR "${CMAKE_BINARY_DIR}/data")
+
+# if you want to run the command without relying on any specific target
+add_custom_target(copy_data ALL
     COMMAND ${CMAKE_COMMAND} -E copy_directory
-    ${CMAKE_SOURCE_DIR}/data/ $<TARGET_FILE_DIR:${PROJECT_NAME}>/data/
+    "${DATA_SOURCE_DIR}" $<TARGET_FILE_DIR:${PROJECT_NAME}>/data/
+    COMMENT "Copying data directory to output..."
 )
+
+# Ensure the custom target runs before building the executable
+add_dependencies(${PROJECT_NAME} copy_data)
+
