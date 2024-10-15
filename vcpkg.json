@@ -3,6 +3,7 @@
     "name": "raylib-template",
     "version-semver": "0.0.0",
     "dependencies": [
-        "raylib"
+        "glfw3",
+	"raylib"
     ]
 }
