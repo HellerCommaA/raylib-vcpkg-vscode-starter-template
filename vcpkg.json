@@ -3,7 +3,7 @@
     "name": "raylib-template",
     "version-semver": "0.0.0",
     "dependencies": [
-        "glfw3",
-	"raylib"
+        "sfml",
+        "entt"
     ]
 }

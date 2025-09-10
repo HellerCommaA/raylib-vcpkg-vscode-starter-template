@@ -32,7 +32,8 @@ file(
     ${PROJECT_SOURCE_DIR}/src/*.cpp
     ${PROJECT_SOURCE_DIR}/src/*.hpp
 )
-add_executable(${PROJECT_NAME} ${SOURCE_FILES})
+
+add_subdirectory(src)
 
 # Ensure the C++17 standard is available.
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
@@ -49,13 +50,11 @@ else()
     target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wno-c++11-narrowing -Wno-unused-parameter)
 endif()
 
-find_package(raylib CONFIG REQUIRED)
+find_package(EnTT CONFIG REQUIRED)
+target_link_libraries(${PROJECT_NAME} PRIVATE EnTT::EnTT)
 
-target_link_libraries(
-    ${PROJECT_NAME}
-    PRIVATE
-        raylib
-)
+find_package(SFML COMPONENTS Network Graphics Window Audio System CONFIG REQUIRED)
+target_link_libraries(${PROJECT_NAME} PRIVATE SFML::Network SFML::Graphics SFML::Window SFML::Audio SFML::System)
 
 target_link_options(${PROJECT_NAME} PRIVATE -fsanitize=address,undefined)
 
